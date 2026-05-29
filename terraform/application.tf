@@ -147,6 +147,31 @@ resource "helm_release" "retail_app" {
 
   # --- UI INGRESS OVERRIDES ---
   set {
+    name  = "ui.endpoints.catalog"
+    value = "http://retail-app-catalog:80"
+  }
+  set {
+    name  = "ui.endpoints.carts"
+    value = "http://retail-app-carts:80"
+  }
+  set {
+    name  = "ui.endpoints.checkout"
+    value = "http://retail-app-checkout:80"
+  }
+  set {
+    name  = "ui.endpoints.orders"
+    value = "http://retail-app-orders:80"
+  }
+  set {
+    name  = "ui.endpoints.assets"
+    value = "http://retail-app-assets:80"
+  }
+  set {
+    name  = "checkout.endpoints.orders"
+    value = "http://retail-app-orders:80"
+  }
+
+  set {
     name  = "ui.ingress.enabled"
     value = "true"
   }
