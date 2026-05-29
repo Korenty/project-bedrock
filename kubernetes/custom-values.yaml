@@ -1,0 +1,41 @@
+# Custom values for deploying InnovateMart Retail Store on AWS Managed Services
+retail-store-sample-catalog-chart:
+  mysql:
+    create: false
+    endpoint: "INSERT_RDS_MYSQL_ENDPOINT_HERE"
+    database: "catalog"
+    secret:
+      create: false
+      name: "catalog-db-secret"
+
+retail-store-sample-orders-chart:
+  postgresql:
+    create: false
+    endpoint:
+      host: "INSERT_RDS_PG_HOST_HERE"
+      port: "5432"
+    database: "orders"
+    secret:
+      create: false
+      name: "orders-db-secret"
+
+retail-store-sample-cart-chart:
+  dynamodb:
+    create: false
+    tableName: "items"
+  serviceAccount:
+    create: true
+    name: "carts"
+    annotations:
+      eks.amazonaws.com/role-arn: "INSERT_CARTS_IRSA_ROLE_ARN"
+
+retail-store-sample-ui-chart:
+  ingress:
+    enabled: true
+    className: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/scheme: "internet-facing"
+      alb.ingress.kubernetes.io/target-type: "ip"
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      alb.ingress.kubernetes.io/certificate-arn: "INSERT_ACM_CERT_ARN"
