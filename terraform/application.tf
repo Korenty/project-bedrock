@@ -183,9 +183,11 @@ resource "helm_release" "retail_app" {
     name  = "ui.ingress.annotations.alb\\.ingress\\.kubernetes\\.io/target-type"
     value = "ip"
   }
+  
+  # FIXED: Wrapped the verified ACM certificate ARN string in double quotes
   set {
     name  = "ui.ingress.annotations.alb\\.ingress\\.kubernetes\\.io/certificate-arn"
-    value = aws_acm_certificate.ingress_cert.arn
+    value = "arn:aws:acm:us-east-1:475418221916:certificate/bff583db-7e48-4301-b166-7edf07d80d61"
   }
   set {
     name  = "ui.ingress.annotations.alb\\.ingress\\.kubernetes\\.io/listen-ports"
@@ -200,6 +202,12 @@ resource "helm_release" "retail_app" {
   set {
     name  = "ui.ingress.className"
     value = "alb"
+  }
+
+  # --- FIXED CUSTOM DOMAIN HOST CONFIGURATION ---
+  set {
+    name  = "ui.ingress.hosts[0]"
+    value = "innovamart.fanuel.pro.et"
   }
 
   depends_on = [
