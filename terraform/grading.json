@@ -19,25 +19,10 @@
     "type": "string",
     "value": "items"
   },
-  "grader_access_key_id": {
-    "sensitive": false,
-    "type": "string",
-    "value": "AKIAW5MJCLVOAUAHXCBC"
-  },
-  "grader_console_password": {
-    "sensitive": true,
-    "type": "string",
-    "value": "^Bbwsu0Js)0SuQMOi|o9"
-  },
   "grader_iam_username": {
     "sensitive": false,
     "type": "string",
     "value": "bedrock-dev-view"
-  },
-  "grader_secret_access_key": {
-    "sensitive": true,
-    "type": "string",
-    "value": "YFOHTsEMfbDrLkb4PMWcUPH3c0AXaiGtqsSUU5VO"
   },
   "mysql_endpoint": {
     "sensitive": false,

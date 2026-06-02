@@ -81,16 +81,3 @@ output "grader_iam_username" {
   value = aws_iam_user.dev_user.name
 }
 
-output "grader_console_password" {
-  value     = aws_iam_user_login_profile.dev_login.password
-  sensitive = true # Marked sensitive to satisfy Terraform state compilation requirements
-}
-
-output "grader_access_key_id" {
-  value = aws_iam_access_key.dev_keys.id
-}
-
-output "grader_secret_access_key" {
-  value     = aws_iam_access_key.dev_keys.secret
-  sensitive = true # Marked sensitive to satisfy Terraform state compilation requirements
-}
