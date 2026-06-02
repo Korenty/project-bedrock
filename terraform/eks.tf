@@ -42,7 +42,7 @@ module "eks" {
     "scheduler"
   ]
 
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
 
   # ----------------------------------------------------------------------------
   # EKS Managed Node Group
@@ -109,5 +109,43 @@ module "irsa-addon-cloudwatch" {
 
   tags = {
     Project = "karatu-2025-capstone"
+  }
+}
+
+# ==============================================================================
+# STATIC EKS ACCESS ENTRIES (Authorizes Both Local and Pipeline Identities)
+# ==============================================================================
+
+# 1. Explicit Cluster Admin Access for Your Local AWS Root Account
+resource "aws_eks_access_entry" "root_access" {
+  cluster_name  = module.eks.cluster_name
+  principal_arn = "arn:aws:iam::475418221916:root"
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "root_admin" {
+  cluster_name  = module.eks.cluster_name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = "arn:aws:iam::475418221916:root"
+
+  access_scope {
+    type = "cluster"
+  }
+}
+
+# 2. Explicit Cluster Admin Access for Your GitHub Actions Pipeline User
+resource "aws_eks_access_entry" "pipeline_access" {
+  cluster_name  = module.eks.cluster_name
+  principal_arn = "arn:aws:iam::475418221916:user/bedrock-terraform-pipeline"
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "pipeline_admin" {
+  cluster_name  = module.eks.cluster_name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = "arn:aws:iam::475418221916:user/bedrock-terraform-pipeline"
+
+  access_scope {
+    type = "cluster"
   }
 }
